@@ -1,0 +1,51 @@
+{
+    "typeName": "rnd::s3cleanup::test",
+    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "properties": {
+        "Name": {
+            "description": "A name associated with the s3 bucket.",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{1,219}\\Z",
+            "minLength": 1,
+            "maxLength": 219
+          },
+          "Runtime": {
+            "description": "The python runtime eg: 'python3.9",
+            "type": "string"
+          }
+
+    },
+    "additionalProperties": false,
+    "primaryIdentifier": [
+        "/properties/Name"
+    ],
+    "createOnlyProperties": [
+        "/properties/Name"
+    ],
+    "required": [
+        "Name",
+        "Runtime"
+      ],
+    "handlers": {
+        "create": {
+            "permissions": [
+                "lambda:CreateFunction"
+            ]
+        },
+        "update": {
+            "permissions": [
+                "lambda:UpdateFunctionConfiguration"
+            ]
+        },
+        "read":  {
+            "permissions": [
+                "lambda:GetFunction"
+            ]
+        },
+        "delete": {
+            "permissions": [
+                "lamdba:DeleteFunction"
+            ]
+        }
+    }
+}

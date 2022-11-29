@@ -32,7 +32,6 @@ Resources:
                 Action:
                 - "lambda:CreateFunction"
                 - "lambda:GetFunction"
-                - "lambda:UpdateFunctionConfiguration"
                 - "lamdba:DeleteFunction"
                 Resource: "*"
 Outputs:

@@ -41,8 +41,6 @@ _Minimum Length_: <code>1</code>
 
 _Maximum Length_: <code>219</code>
 
-_Pattern_: <code>^[a-zA-Z0-9]{1,219}\Z</code>
-
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
 #### Runtime

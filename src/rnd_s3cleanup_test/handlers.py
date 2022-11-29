@@ -24,7 +24,6 @@ TYPE_NAME = "rnd::s3cleanup::test"
 resource = Resource(TYPE_NAME, ResourceModel)
 test_entrypoint = resource.test_entrypoint
 
-
 @resource.handler(Action.CREATE)
 def create_handler(
     session: Optional[SessionProxy],
@@ -37,45 +36,34 @@ def create_handler(
         resourceModel=model,
     )
 
-    # Example:
     try:
-        # primary identifier from example
-        primary_identifier = model.Name
         create_lambda_function(model.Runtime)
-
-        # setting up random primary identifier compliant with cfn standard
-        if primary_identifier is None:
-            primary_identifier = identifier_utils.generate_resource_identifier(
-                stack_id_or_name=request.stackId,
-                logical_resource_id=request.logicalResourceIdentifier,
-                client_request_token=request.clientRequestToken,
-                max_length=255
-                )
-
-        if isinstance(session, SessionProxy):
-            client = session.client("s3")
         # Setting Status to success will signal to cfn that the operation is complete
         progress.status = OperationStatus.SUCCESS
+        progress.resourceModel = model
+        return progress
     except TypeError as e:
         # exceptions module lets CloudFormation know the type of failure that occurred
-        return ProgressEvent.failed(HandlerErrorCode.InternalFailure, f"was not expecting type {e}")
+        progress.status = OperationStatus.FAILED
+        progress.message=f"Create failed with {e} ---"
+        progress.errorCode=HandlerErrorCode.InternalFailure
+        return progress
+    
 
-    return read_handler(session, request, callback_context)
 
-
-@resource.handler(Action.UPDATE)
-def update_handler(
-    session: Optional[SessionProxy],
-    request: ResourceHandlerRequest,
-    callback_context: MutableMapping[str, Any],
-) -> ProgressEvent:
-    model = request.desiredResourceState
-    progress: ProgressEvent = ProgressEvent(
-        status=OperationStatus.IN_PROGRESS,
-        resourceModel=model,
-    )
-    # TODO: put code here
-    return read_handler(session, request, callback_context)
+# @resource.handler(Action.UPDATE)
+# def update_handler(
+#     session: Optional[SessionProxy],
+#     request: ResourceHandlerRequest,
+#     callback_context: MutableMapping[str, Any],
+# ) -> ProgressEvent:
+#     model = request.desiredResourceState
+#     progress: ProgressEvent = ProgressEvent(
+#         status=OperationStatus.IN_PROGRESS,
+#         resourceModel=model,
+#     )
+#     # TODO: put code here
+#     return progress
 
 
 @resource.handler(Action.DELETE)
@@ -95,11 +83,14 @@ def delete_handler(
             FunctionName="s3-cleaner-function"
         )
         progress.status = OperationStatus.SUCCESS
-    except Exception as e:
+        progress.resourceModel = model
+        return progress
+    except TypeError as e:
+        # exceptions module lets CloudFormation know the type of failure that occurred
         progress.status = OperationStatus.FAILED
-        
-    return progress
-
+        progress.message=f"Create failed with {e} ---"
+        progress.errorCode=HandlerErrorCode.InternalFailure
+        return progress
 
 @resource.handler(Action.READ)
 def read_handler(
@@ -115,17 +106,17 @@ def read_handler(
     )
 
 
-@resource.handler(Action.LIST)
-def list_handler(
-    session: Optional[SessionProxy],
-    request: ResourceHandlerRequest,
-    callback_context: MutableMapping[str, Any],
-) -> ProgressEvent:
-    # TODO: put code here
-    return ProgressEvent(
-        status=OperationStatus.SUCCESS,
-        resourceModels=[],
-    )
+# @resource.handler(Action.LIST)
+# def list_handler(
+#     session: Optional[SessionProxy],
+#     request: ResourceHandlerRequest,
+#     callback_context: MutableMapping[str, Any],
+# ) -> ProgressEvent:
+#     # TODO: put code here
+#     return ProgressEvent(
+#         status=OperationStatus.SUCCESS,
+#         resourceModels=[],
+#     )
 
 
 def create_lambda_function(runtime):

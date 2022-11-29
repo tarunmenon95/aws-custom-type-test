@@ -5,7 +5,6 @@
         "Name": {
             "description": "A name associated with the s3 bucket.",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]{1,219}\\Z",
             "minLength": 1,
             "maxLength": 219
           },
@@ -30,11 +29,6 @@
         "create": {
             "permissions": [
                 "lambda:CreateFunction"
-            ]
-        },
-        "update": {
-            "permissions": [
-                "lambda:UpdateFunctionConfiguration"
             ]
         },
         "read":  {

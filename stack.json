@@ -1,0 +1,13 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "rnd s3 clean stack",
+    "Resources": {
+        "S3CleanupExtension": {
+            "Type": "rnd::s3cleanup::test",
+            "Properties": {
+                "Name": "testname", 
+                "Runtime": "python3.7"
+            }
+        }
+    }
+}

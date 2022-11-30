@@ -21,4 +21,3 @@ Resources:
       Handler: rnd_s3cleanup_test.handlers.test_entrypoint
       Runtime: python3.7
       CodeUri: build/
-

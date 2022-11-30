@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import Any, MutableMapping, Optional
 
 from cloudformation_cli_python_lib import (
@@ -36,6 +37,7 @@ def create_handler(
         raise exceptions.AlreadyExists(resource.type_name, f"{requested_model.Name}")
     api_interface.create_model(requested_model)
     LOG.info("Lambda created")
+    time.sleep(30)
     return read_handler(session, request, callback_context)
 
 @resource.handler(Action.DELETE)

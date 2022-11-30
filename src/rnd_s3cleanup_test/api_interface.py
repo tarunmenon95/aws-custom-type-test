@@ -29,6 +29,11 @@ class ApiInterface:
                 )
             else:
                 raise e
+        except self.client.exceptions.ResourceNotFoundException as e:
+            raise exceptions.NotFound(
+                    self.resource.type_name,
+                    f"{read_request['name']}",
+            )
         return Translator.translate_read_response_to_model(response)
 
     def model_exists(self, model: ResourceModel) -> bool:
@@ -62,6 +67,7 @@ class ApiInterface:
         delete_request = Translator.translate_model_to_delete_request(model)
         try:
             self.client.delete_function(FunctionName=delete_request["name"])
+            #TODO Cleanup IAM Resources aswell....
         except self.client.exceptions.ClientError as e:
             if e.response['Error']['Code'] == 'ResourceNotFoundException':
                 raise exceptions.NotFound(

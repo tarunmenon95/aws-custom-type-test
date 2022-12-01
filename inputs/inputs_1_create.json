@@ -1,4 +1,4 @@
 {
-    "Name": "testname",
+    "FunctionName": "cleanerfunction",
     "Runtime": "python3.7"
 }

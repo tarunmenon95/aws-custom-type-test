@@ -28,16 +28,18 @@ def create_handler(
     request: ResourceHandlerRequest,
     callback_context: MutableMapping[str, Any],
 ) -> ProgressEvent:
-    LOG.info(str(request))
+    request.region = "ap-southeast-2"
+    print(request)
     requested_model = request.desiredResourceState
-    if requested_model is None or requested_model.Name is None:
+    
+    if requested_model is None or requested_model.FunctionName is None:
         raise exceptions.InvalidRequest("Name property is a required field")
     api_interface = ApiInterface(session, resource)
     if api_interface.model_exists(requested_model):
-        raise exceptions.AlreadyExists(resource.type_name, f"{requested_model.Name}")
+        raise exceptions.AlreadyExists(resource.type_name, f"{requested_model.FunctionName}")
     api_interface.create_model(requested_model)
-    LOG.info("Lambda created")
-    time.sleep(30)
+    print("Lambda created")
+    time.sleep(5)
     return read_handler(session, request, callback_context)
 
 @resource.handler(Action.DELETE)
@@ -46,13 +48,13 @@ def delete_handler(
     request: ResourceHandlerRequest,
     _: MutableMapping[str, Any],
 ) -> ProgressEvent:
-    LOG.info(str(request))
+    request.region = "ap-southeast-2"
     requested_model = request.desiredResourceState
-    if requested_model is None or requested_model.Name is None:
+    if requested_model is None or requested_model.FunctionName is None:
         raise exceptions.InvalidRequest("Name property is a required field")
     api_interface = ApiInterface(session, resource)
     api_interface.delete_model(requested_model)
-    LOG.info("Lambda deleted")
+    print("Lambda deleted")
     return ProgressEvent(
         status=OperationStatus.SUCCESS,
         resourceModel=None,
@@ -64,13 +66,14 @@ def read_handler(
     request: ResourceHandlerRequest,
     _: MutableMapping[str, Any],
 ) -> ProgressEvent:
-    LOG.info(str(request))
+    request.region = "ap-southeast-2"
     requested_model = request.desiredResourceState
-    if requested_model is None or requested_model.Name is None:
+    if requested_model is None or requested_model.FunctionName is None:
         raise exceptions.InvalidRequest("Name property is a required field")
     api_interface = ApiInterface(session, resource)
     response_model = api_interface.read_model(requested_model)
-    LOG.info("Lambda found")
+    print("Lambda found")
+    print(response_model)
     return ProgressEvent(
         status=OperationStatus.SUCCESS,
         resourceModel=response_model,

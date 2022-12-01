@@ -5,7 +5,7 @@
         "S3CleanupExtension": {
             "Type": "rnd::s3cleanup::test",
             "Properties": {
-                "Name": "testname", 
+                "FunctionName": "testname", 
                 "Runtime": "python3.7"
             }
         }

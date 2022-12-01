@@ -41,8 +41,9 @@ class ResourceHandlerRequest(BaseResourceHandlerRequest):
 
 @dataclass
 class ResourceModel(BaseModel):
-    Name: Optional[str]
+    FunctionName: Optional[str]
     Runtime: Optional[str]
+    FunctionArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -54,8 +55,9 @@ class ResourceModel(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Name=json_data.get("Name"),
+            FunctionName=json_data.get("FunctionName"),
             Runtime=json_data.get("Runtime"),
+            FunctionArn=json_data.get("FunctionArn"),
         )
 
 

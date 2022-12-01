@@ -12,8 +12,8 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 {
     "Type" : "rnd::s3cleanup::test",
     "Properties" : {
-        "<a href="#name" title="Name">Name</a>" : <i>String</i>,
-        "<a href="#runtime" title="Runtime">Runtime</a>" : <i>String</i>
+        "<a href="#functionname" title="FunctionName">FunctionName</a>" : <i>String</i>,
+        "<a href="#runtime" title="Runtime">Runtime</a>" : <i>String</i>,
     }
 }
 </pre>
@@ -23,15 +23,15 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 <pre>
 Type: rnd::s3cleanup::test
 Properties:
-    <a href="#name" title="Name">Name</a>: <i>String</i>
+    <a href="#functionname" title="FunctionName">FunctionName</a>: <i>String</i>
     <a href="#runtime" title="Runtime">Runtime</a>: <i>String</i>
 </pre>
 
 ## Properties
 
-#### Name
+#### FunctionName
 
-A name associated with the s3 bucket.
+name to call the function
 
 _Required_: Yes
 
@@ -41,11 +41,11 @@ _Minimum Length_: <code>1</code>
 
 _Maximum Length_: <code>219</code>
 
-_Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
 #### Runtime
 
-The python runtime eg: 'python3.9
+The python runtime for the lambda eg: 'python3.9
 
 _Required_: Yes
 
@@ -57,4 +57,15 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 
 ### Ref
 
-When you pass the logical ID of this resource to the intrinsic `Ref` function, Ref returns the Name.
+When you pass the logical ID of this resource to the intrinsic `Ref` function, Ref returns the FunctionArn.
+
+### Fn::GetAtt
+
+The `Fn::GetAtt` intrinsic function returns a value for a specified attribute of this type. The following are the available attributes and sample return values.
+
+For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html).
+
+#### FunctionArn
+
+Function ARN
+

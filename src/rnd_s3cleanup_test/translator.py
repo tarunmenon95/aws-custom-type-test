@@ -7,28 +7,32 @@ class Translator:
     @staticmethod
     def translate_model_to_read_request(model: ResourceModel) -> dict:
         request = {
-            "name": model.Name,
-            "runtime": model.Runtime
+            "FunctionName": model.FunctionName,
+            "Runtime": model.Runtime,
+            "FunctionArn": model.FunctionArn
         }
         return request
 
     @staticmethod
     def translate_read_response_to_model(read_response: dict) -> ResourceModel:
         model = ResourceModel(
-            Name=read_response.get("FunctionName", None),
+            FunctionName=read_response.get("FunctionName", None),
             Runtime=read_response.get("Runtime", None),
+            FunctionArn=read_response.get("FunctionArn", None)
         )
         return model
 
     @staticmethod
     def translate_model_to_create_request(model: ResourceModel) -> dict:
         request = {
-            "name": model.Name,
+            "FunctionName": model.FunctionName,
         }
-        if model.Name is not None:
-            request["Name"] = model.Name
+        if model.FunctionName is not None:
+            request["FunctionName"] = model.FunctionName
         if model.Runtime is not None:
             request["Runtime"] = model.Runtime
+        if model.FunctionArn is not None:
+            request["FunctionArn"] = model.FunctionArn
 
         return request
 
@@ -39,6 +43,6 @@ class Translator:
     @staticmethod
     def translate_model_to_delete_request(model: ResourceModel) -> dict:
         request = {
-            "name": model.Name,
+            "FunctionName": model.FunctionName,
         }
         return request

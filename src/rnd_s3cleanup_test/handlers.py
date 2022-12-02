@@ -29,8 +29,9 @@ def create_handler(
     callback_context: MutableMapping[str, Any],
 ) -> ProgressEvent:
     request.region = "ap-southeast-2"
-    print(request)
     requested_model = request.desiredResourceState
+    print(requested_model.FunctionName)
+    print(requested_model.Runtime)
     
     if requested_model is None or requested_model.FunctionName is None:
         raise exceptions.InvalidRequest("Name property is a required field")

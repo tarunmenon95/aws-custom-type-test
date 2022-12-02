@@ -30,6 +30,9 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                - "iam:AttachRolePolicy"
+                - "iam:CreatePolicy"
+                - "iam:CreateRole"
                 - "lambda:CreateFunction"
                 - "lambda:GetFunction"
                 - "lamdba:DeleteFunction"

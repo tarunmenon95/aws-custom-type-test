@@ -36,7 +36,7 @@ class ApiInterface:
         except WaiterError as e:
             print("WAITTEEEERRRR")
             raise exceptions.NotFound(
-                    "self.resource.type_name",
+                    self.resource.type_name,
                     f"{read_request['FunctionName']}",
             )
         except self.client.exceptions.ResourceNotFoundException:

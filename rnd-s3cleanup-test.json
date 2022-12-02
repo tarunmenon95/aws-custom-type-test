@@ -5,12 +5,14 @@
         "FunctionName": {
         "description": "name to call the function",
         "type": "string",
-        "minLength": 1,
-        "maxLength": 219
+        "pattern": "^[a-zA-Z]{5,50}$",
+        "minLength": 5,
+        "maxLength": 50
         },
         "Runtime": {
         "description": "The python runtime for the lambda eg: 'python3.9",
-        "type": "string"
+        "type": "string",
+        "pattern": "^python3[.][7-9]$"
         },
         "FunctionArn": {
         "description": "Function ARN",
